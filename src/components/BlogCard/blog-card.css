@@ -1,0 +1,20 @@
+.card {
+  width: 320px;
+  height: fit-content;
+  align-items: center;
+  border: none;
+}
+.card-title {
+  font-weight: 600;
+  font-size: 15px;
+}
+.hotel-card {
+  background-color: transparent;
+}
+.card-img-top {
+  width: 310px;
+  height: 240px;
+}
+.linkClass {
+  text-decoration: none;
+}

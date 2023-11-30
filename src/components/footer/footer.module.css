@@ -1,0 +1,13 @@
+.navLink {
+  text-decoration: none;
+  color: var(--main-color-two);
+}
+.footer {
+  margin-top: 25px;
+  margin-bottom: 0;
+  padding-top: 15px;
+  padding-bottom: 10px;
+  position: relative;
+  left: 0;
+  bottom: 0;
+}
