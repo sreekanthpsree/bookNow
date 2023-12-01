@@ -5,7 +5,7 @@ import { faUser } from "@fortawesome/free-solid-svg-icons";
 import Flatpickr from "react-flatpickr";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import ReactCountryFlag from "react-country-flag";
-import { getLocations } from "@/api/api";
+import { getLocations, userLogout } from "@/api/api";
 import getCountryCode from "@/helper/getCountryCode";
 import Link from "next/link";
 import FormControl from "@mui/material/FormControl";
@@ -29,9 +29,19 @@ function Navigationbar() {
     dispatch(toggleModal({ isOpen: true }));
   };
   async function logoutUser() {
-    dispatch(logout());
-    setUserData({});
-    router.push("/");
+    try {
+      const response = await userLogout(userData.token, userData.userId);
+
+      if (response.success) {
+        dispatch(logout());
+        setUserData({});
+        router.push("/");
+      } else {
+        throw error;
+      }
+    } catch (error) {
+      console.log(error);
+    }
   }
   async function fetchLocations() {
     try {
@@ -44,26 +54,24 @@ function Navigationbar() {
   useEffect(() => {
     fetchLocations();
     const user = getUserCookies("user");
-    console.log(user, "running");
     if (user) {
       setUserData(user);
     }
   }, []);
-  console.log(userData);
   return (
     <>
-      <div className="sticky-top bg-white">
-        <nav className="flex flex-row m-2">
-          <div className="w-30  fs-2">
+      <div className="sticky-to ">
+        <nav className="flex flex-row m-2 p-2 justify-between">
+          <div className="fs-2">
             <Link href="/" style={{ textDecoration: "none" }}>
               <h6
-                className={`brand d-flex mt-3 m-auto text-danger  ${styles.brand}`}
+                className={`brand d-flex mt-3 m-auto text-danger shadow-md p-0 ${styles.brand}`}
               >
                 bookNow
               </h6>
             </Link>
           </div>
-          <div className="w-50 mt-1 text-end">
+          {/* <div className="w-50 mt-1 text-end">
             <FormControl
               className=" w-50 text-center rounded-md shadow-md border-none"
               variant="standard"
@@ -95,34 +103,37 @@ function Navigationbar() {
                   })}
               </Select>
             </FormControl>
-          </div>
-          <div className={`w-50 justify-end`}>
-            <div className="flex mt-3  text-end">
-              <div className="col-6 flex gap-2 text-end ms-4 flex-row ">
+          </div> */}
+          <div>
+            <div className="flex gap-2 mt-3">
+              <div className=" flex text-end ms-4 gap-2 flex-row ">
                 <Flatpickr
                   data-enable-time
                   placeholder="Pick a date"
-                  className="form-control rounded-5 "
+                  className="form-control rounded-5 shadow-md"
                 />
                 <input
                   type="text"
-                  className={`rounded-5 form-control `}
+                  className={`rounded-5 form-control shadow-md`}
                   placeholder="Search text"
                 />
               </div>
-              <div className="col-2 ms-2 w-40 justify-start d-flex flex-row gap-2">
+              <div className="d-flex flex-row">
                 <div>
-                  <button type="submit" className=" btn bg-red-500 rounded-5">
+                  <button
+                    type="submit"
+                    className=" btn bg-red-500 shadow-md rounded-5"
+                  >
                     <FontAwesomeIcon icon={faSearch} />
                   </button>
                 </div>
               </div>
-              <div className=" ms-2 text-end w-40 justify-end">
+              <div className=" ms-2 text-end justify-end">
                 <ul className={`${styles.ul} ${styles.blogList} d-flex`}>
-                  {userData?.isAuth && (
+                  {userData && userData.isAuth ? (
                     <li className={`${styles.list}`} key={"1"}>
                       <button
-                        className="btn bg-red-500 rounded-5 dropdown-toggle ms-2"
+                        className="btn bg-red-500 rounded-5 dropdown-toggle ms-2 shadow-md"
                         type="button"
                         data-bs-toggle="dropdown"
                         aria-expanded="false"
@@ -135,21 +146,12 @@ function Navigationbar() {
                         <li className={`${styles.list}`}>
                           <div className={`${styles.dropdownItem}`}>
                             <div className="flex">
-                              {userData?.isAuth ? (
-                                <Link
-                                  className={`${styles.dropdownItem}`}
-                                  href="/users"
-                                >
-                                  Hi,{userData?.username}
-                                </Link>
-                              ) : (
-                                <button
-                                  onClick={handleOpenModal}
-                                  className="bg-red-500 ms-3 rounded-full hover:bg-white p-2 text-black font-bold"
-                                >
-                                  Login
-                                </button>
-                              )}
+                              <Link
+                                className={`${styles.dropdownItem}`}
+                                href="/users"
+                              >
+                                Hi,{userData.username}
+                              </Link>
                             </div>
                           </div>
                         </li>
@@ -163,14 +165,23 @@ function Navigationbar() {
                           </button>
                         </li>
                         {/* <li className={`${styles.list}`}>
-                      <Link
-                        className={`${styles.dropdownItem} ${styles.link}`}
-                        href="/signin"
+                          <Link
+                            className={`${styles.dropdownItem} ${styles.link}`}
+                            href="/signin"
+                          >
+                            Login
+                          </Link>
+                        </li> */}
+                      </ul>
+                    </li>
+                  ) : (
+                    <li>
+                      <button
+                        onClick={handleOpenModal}
+                        className="bg-red-500  mb-1 rounded-xl hover:bg-white p-2 text-black font-extrabold"
                       >
                         Login
-                      </Link>
-                    </li> */}
-                      </ul>
+                      </button>
                     </li>
                   )}
                 </ul>

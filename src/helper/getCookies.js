@@ -28,6 +28,16 @@ export const getValidAuthTokens = (name) => {
 };
 
 export const getUserCookies = (name) => {
-    const data = JSON.parse(getCookie(name));
-    return data;
+    try {
+        const data = (getCookie(name));
+        if (data) {
+            const result = JSON.parse(data);
+            return result;
+
+        }
+        return
+    } catch (error) {
+        console.log(error)
+    }
+
 }

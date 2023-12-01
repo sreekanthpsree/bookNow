@@ -63,3 +63,19 @@ export async function loginUser(data) {
         throw error
     }
 }
+
+export async function userLogout(token, userId) {
+    const url = `${API_URL}/users/api/v1/logout`;
+
+    try {
+        const response = await axios.post(url, { userId }, {
+            headers: {
+                'Authorization': token
+            }
+        })
+        return response.data
+    } catch (error) {
+        console.log(error.message)
+        throw error
+    }
+}

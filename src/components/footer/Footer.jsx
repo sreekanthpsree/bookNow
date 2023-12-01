@@ -4,11 +4,9 @@ import styles from "./footer.module.css";
 
 function Footer() {
   return (
-    <footer
-      className={`p-4 flex relative  flex-wrap justify-content-between align-items-center py-3 my-4 ms-3 ${styles.footer}`}
-    >
-      <p className="col-md-4 mb-0 ">© 2023 bookNow, Inc</p>
-      <ul className="nav col-md-4 justify-content-end">
+    <footer className={` flex justify-between ${styles.footer}`}>
+      <p className="col-md-4 px-2  m-4">© 2023 bookNow, Inc</p>
+      <ul className="nav col-md-4 m-4 justify-content-end">
         <li className="nav-item">
           <Link href="#" className={`${styles.navLink} px-2`}>
             Home

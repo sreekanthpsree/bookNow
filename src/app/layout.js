@@ -23,7 +23,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <AuthProvider>
         <ReduxProvider>
-          <body>
+          <body style={{ "height": "100vh" }}>
             <Navigationbar />
             {children}
             <Footer />

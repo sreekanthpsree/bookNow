@@ -1,3 +1,4 @@
+import { logoutUser } from "@/api/api";
 import { createSlice } from "@reduxjs/toolkit";
 import { setCookie, deleteCookie, getCookie } from "cookies-next";
 
@@ -28,13 +29,15 @@ const setUserDataCookies = async (data, name) => {
 }
 
 
+
+
 export const auth = createSlice({
     name: "auth",
     initialState,
     reducers: {
         logout: () => {
             deleteCookie('auth-token');
-            setUserDataCookies(initialState, "user")
+            setUserDataCookies(initialState.value, "user")
             return initialState
         },
         login: (state, action) => {

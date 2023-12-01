@@ -11,7 +11,6 @@ export const AuthWrapper = ({ children }) => {
     const { push } = useRouter();
     const dispatch = useDispatch()
     const { token } = getValidAuthTokens("auth-token");
-    console.log(token)
     useEffect(() => {
         if (!token) {
             dispatch(toggleModal({ isOpen: true }))

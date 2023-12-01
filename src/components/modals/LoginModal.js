@@ -17,9 +17,9 @@ const LoginModal = ({ children }) => {
 
     }
     return (
-        <div className="fixed inset-0 bg-black
+        <div className="fixed inset-0 
         bg-opacity-25 backdrop-blur-sm flex  
-        justify-center items-center" id='wrapper' onClick={handleClose}>
+        justify-center items-center z-50" id='wrapper' onClick={handleClose}>
             <div className='w-[400px] flex flex-col bg-white rounded-lg'>
                 <div className=' text-whtie text-end flex flex-row justify-between text-xl p-2 rounded-t-lg'>
                     <p className='text-center mt-2'>Login / Sign Up</p>
